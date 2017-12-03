@@ -42,12 +42,12 @@ public class Driver
 
 			// FIXME: create these object instances correctly using an explicit value constructor
 			// use the index variable of this loop to change the values of the arguments to these constructors
-			myFirst = new MyAllTypesFirst(...);
-			mySecond = new MyAllTypesSecond(..);
+			//myFirst = new MyAllTypesFirst(...);
+			//mySecond = new MyAllTypesSecond(..);
 
 			// FIXME: store myFirst and mySecond in the data structure
-			((StoreI) cpointRef).writeObj(myFirst, "XML");
-			((StoreI) cpointRef).writeObj(mySecond, "XML");
+			//((StoreI) cpointRef).writeObj(myFirst, "XML");
+			//((StoreI) cpointRef).writeObj(mySecond, "XML");
 
 		}
 
@@ -56,7 +56,7 @@ public class Driver
 		// create a data structure to store the returned ojects
 		for (int j=0; j<2*NUM_OF_OBJECTS; j++) {
 
-			myRecordRet = ((RestoreI) cpointRef).readObj("XML");
+			//myRecordRet = ((RestoreI) cpointRef).readObj("XML");
 			// FIXME: store myRecordRet in the vector
 		}
 
