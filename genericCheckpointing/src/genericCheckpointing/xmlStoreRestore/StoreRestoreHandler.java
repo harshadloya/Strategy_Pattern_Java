@@ -1,13 +1,18 @@
 package genericCheckpointing.xmlStoreRestore;
 
+import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 import genericCheckpointing.serDeser.SerStrategy;
+import genericCheckpointing.util.FileProcessor;
 import genericCheckpointing.util.SerializableObject;
 
 public class StoreRestoreHandler implements InvocationHandler 
 {
+	private File checkpointFile;
+	private FileProcessor checkpointFileProc;
+	
 	public Object invoke(Object proxy, Method m, Object[] args) throws Throwable
 	{
 		return null;
@@ -22,5 +27,23 @@ public class StoreRestoreHandler implements InvocationHandler
 	public void serializeData(SerializableObject sObject, SerStrategy sStrategy) 
 	{
 		sStrategy.processInput(sObject);
+	}
+	
+	public void openFile()
+	{
+		checkpointFileProc = new FileProcessor(checkpointFile.getPath());
+	}
+	
+	public void closeFile()
+	{
+		checkpointFileProc.closeFile();
+	}
+
+	public File getCheckpointFile() {
+		return checkpointFile;
+	}
+
+	public void setCheckpointFile(File checkpointFileIn) {
+		checkpointFile = checkpointFileIn;
 	}
 }
