@@ -2,7 +2,7 @@ package genericCheckpointing.serDeser;
 
 import genericCheckpointing.util.SerializableObject;
 
-public class XMLDeserialization implements SerStrategy
+public class XMLDeserializationStrategy implements SerStrategy
 {
 
 	@Override

@@ -2,9 +2,8 @@
 package genericCheckpointing.driver;
 
 import java.io.File;
+import java.util.Random;
 import java.util.Vector;
-
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
 
 import genericCheckpointing.server.RestoreI;
 import genericCheckpointing.server.StoreI;
@@ -29,7 +28,7 @@ public class Driver
 		}
 
 		String mode = args[0];
-		if(!mode.equalsIgnoreCase("serdeser") || !mode.equalsIgnoreCase("deser"))
+		if(!mode.equalsIgnoreCase("serdeser") && !mode.equalsIgnoreCase("deser"))
 		{
 			System.err.println("Invalid Mode, It can be either serdeser or deser only.");
 			System.exit(1);
@@ -58,6 +57,7 @@ public class Driver
 		MyAllTypesFirst myFirst;
 		MyAllTypesSecond  mySecond;
 		
+		// create a data structure to store the objects being serialized
 		Vector<SerializableObject> serDeserObjects = new Vector<SerializableObject>(NUM_OF_OBJECTS);
 		
 		// Use an if/switch to proceed according to the command line argument
@@ -74,16 +74,25 @@ public class Driver
 			{
 				// FIXME: create these object instances correctly using an explicit value constructor
 				// use the index variable of this loop to change the values of the arguments to these constructors
-				myFirst = new MyAllTypesFirst();
-				mySecond = new MyAllTypesSecond();
+				if(0 == i%2)
+				{
+					myFirst = new MyAllTypesFirst(i, i+2, i*1024, i*2048+i/8, "Test"+i, true);
+				}
+				else
+				{
+					myFirst = new MyAllTypesFirst(i, i+2, i*1024, i*2048+i/8, "Test"+i, false);
+				}
+				Random r = new Random();
+				mySecond = new MyAllTypesSecond(i*10d, i*50+i/10d, i*1.0f, (short)i, (short)i, (char)(48+r.nextInt(75)));
 
 				// FIXME: store myFirst and mySecond in the data structure
-				((StoreI) cpointRef).writeObj(myFirst, "XML");
-				((StoreI) cpointRef).writeObj(mySecond, "XML");
+				serDeserObjects.add(myFirst);
+				serDeserObjects.add(mySecond);
+				((StoreI) cpointRef).writeObj(myFirst, r.nextInt(9999), "XML");
+				((StoreI) cpointRef).writeObj(mySecond, r.nextInt(9999), "XML");
 
 			}
-		// For deser, just deserliaze the input file into the data structure and then print the objects
-		case "deser":
+			
 			SerializableObject myRecordRet;
 
 			// create a data structure to store the returned objects
@@ -93,6 +102,10 @@ public class Driver
 				// FIXME: store myRecordRet in the vector
 				serDeserObjects.add(j, myRecordRet);
 			}
+			break;
+		// For deser, just deserliaze the input file into the data structure and then print the objects
+		case "deser":
+			
 			break;
 		
 		default:

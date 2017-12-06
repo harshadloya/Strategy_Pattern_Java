@@ -2,7 +2,7 @@ package genericCheckpointing.serDeser;
 
 import genericCheckpointing.util.SerializableObject;
 
-public class XMLSerialization implements SerStrategy
+public class XMLSerializationStrategy implements SerStrategy
 {
 	@Override
 	public void processInput(SerializableObject sObject) 
