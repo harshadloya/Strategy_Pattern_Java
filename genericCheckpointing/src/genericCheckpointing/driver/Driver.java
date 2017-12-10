@@ -48,7 +48,7 @@ public class Driver
 		StoreRestoreHandler handler = new StoreRestoreHandler();
 
 		// create a proxy
-		StoreRestoreI cpointRef = (StoreRestoreI) pc.createProxy(new Class[] {StoreI.class, RestoreI.class}, new StoreRestoreHandler());
+		StoreRestoreI cpointRef = (StoreRestoreI) pc.createProxy(new Class[] {StoreI.class, RestoreI.class}, handler);
 
 		// FIXME: invoke a method on the handler instance to set the file name for checkpointFile and open the file
 		handler.setCheckpointFile(new File(checkpointFile));
@@ -56,9 +56,6 @@ public class Driver
 
 		MyAllTypesFirst myFirst;
 		MyAllTypesSecond  mySecond;
-		
-		// create a data structure to store the objects being serialized
-		Vector<SerializableObject> serDeserObjects = new Vector<SerializableObject>(NUM_OF_OBJECTS);
 		
 		// Use an if/switch to proceed according to the command line argument
 		switch(mode)
@@ -68,26 +65,28 @@ public class Driver
 			// For "serdeser" mode, both the serialize and deserialize functionality should be called.
 
 			// create a data structure to store the objects being serialized
-			//Vector<SerializableObject> serDeserObjects = new Vector<SerializableObject>(NUM_OF_OBJECTS);
+			Vector<SerializableObject> serDeserObjects = new Vector<SerializableObject>(NUM_OF_OBJECTS);
 			// NUM_OF_OBJECTS refers to the count for each of MyAllTypesFirst and MyAllTypesSecond
+			Random r = new Random();
 			for (int i=0; i<NUM_OF_OBJECTS; i++) 
 			{
 				// FIXME: create these object instances correctly using an explicit value constructor
 				// use the index variable of this loop to change the values of the arguments to these constructors
 				if(0 == i%2)
 				{
-					myFirst = new MyAllTypesFirst(i, i+2, i*1024, i*2048+i/8, "Test"+i, true);
+					myFirst = new MyAllTypesFirst(i, i+20, i*1024, i*2048+i/8, "DesignPattern-"+i, true);
 				}
 				else
 				{
-					myFirst = new MyAllTypesFirst(i, i+2, i*1024, i*2048+i/8, "Test"+i, false);
+					myFirst = new MyAllTypesFirst(i, i+20, i*1024, i*2048+i/8, "DesignPattern-"+i, false);
 				}
-				Random r = new Random();
-				mySecond = new MyAllTypesSecond(i*10d, i*50+i/10d, i*1.0f, (short)i, (short)i, (char)(48+r.nextInt(75)));
+				
+				mySecond = new MyAllTypesSecond(i*10d, i*50+i/(10+r.nextDouble()), i*(i+r.nextFloat()), (short)(i+r.nextInt(1000)), (short)(i*+r.nextInt(1000)), (char)(48+r.nextInt(75)));
 
 				// FIXME: store myFirst and mySecond in the data structure
 				serDeserObjects.add(myFirst);
 				serDeserObjects.add(mySecond);
+				
 				((StoreI) cpointRef).writeObj(myFirst, r.nextInt(9999), "XML");
 				((StoreI) cpointRef).writeObj(mySecond, r.nextInt(9999), "XML");
 
@@ -96,11 +95,12 @@ public class Driver
 			SerializableObject myRecordRet;
 
 			// create a data structure to store the returned objects
-			for (int j=0; j<2*NUM_OF_OBJECTS; j++) {
-
+			Vector<SerializableObject> serDeserObjectsNew = new Vector<SerializableObject>(NUM_OF_OBJECTS);
+			for (int j=0; j<2*NUM_OF_OBJECTS; j++)
+			{
 				myRecordRet = ((RestoreI) cpointRef).readObj("XML");
 				// FIXME: store myRecordRet in the vector
-				serDeserObjects.add(j, myRecordRet);
+				serDeserObjectsNew.add(j, myRecordRet);
 			}
 			break;
 		// For deser, just deserliaze the input file into the data structure and then print the objects

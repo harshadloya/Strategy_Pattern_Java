@@ -25,51 +25,51 @@ public class MyAllTypesFirst extends SerializableObject
 		myBool = myBoolIn;
 	}
 
-	public int getMyInt() {
+	public int getmyInt() {
 		return myInt;
 	}
 
-	public void setMyInt(int myIntIn) {
+	public void setmyInt(int myIntIn) {
 		myInt = myIntIn;
 	}
 
-	public int getMyOtherInt() {
+	public int getmyOtherInt() {
 		return myOtherInt;
 	}
 
-	public void setMyOtherInt(int myOtherIntIn) {
+	public void setmyOtherInt(int myOtherIntIn) {
 		myOtherInt = myOtherIntIn;
 	}
 
-	public long getMyLong() {
+	public long getmyLong() {
 		return myLong;
 	}
 
-	public void setMyLong(long myLongIn) {
+	public void setmyLong(long myLongIn) {
 		myLong = myLongIn;
 	}
 
-	public long getMyOtherLong() {
+	public long getmyOtherLong() {
 		return myOtherLong;
 	}
 
-	public void setMyOtherLong(long myOtherLongIn) {
+	public void setmyOtherLong(long myOtherLongIn) {
 		myOtherLong = myOtherLongIn;
 	}
 
-	public String getMyString() {
+	public String getmyString() {
 		return myString;
 	}
 
-	public void setMyString(String myStringIn) {
+	public void setmyString(String myStringIn) {
 		myString = myStringIn;
 	}
 
-	public boolean isMyBool() {
+	public boolean ismyBool() {
 		return myBool;
 	}
 
-	public void setMyBool(boolean myBoolIn) {
+	public void setmyBool(boolean myBoolIn) {
 		myBool = myBoolIn;
 	}
 }

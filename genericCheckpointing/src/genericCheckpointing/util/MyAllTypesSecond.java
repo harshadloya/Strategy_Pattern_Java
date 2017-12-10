@@ -25,51 +25,51 @@ public class MyAllTypesSecond extends SerializableObject
 		myCharT = myCharTIn;
 	}
 
-	public double getMyDoubleT() {
+	public double getmyDoubleT() {
 		return myDoubleT;
 	}
 
-	public void setMyDoubleT(double myDoubleTIn) {
+	public void setmyDoubleT(double myDoubleTIn) {
 		myDoubleT = myDoubleTIn;
 	}
 
-	public double getMyOtherDoubleT() {
+	public double getmyOtherDoubleT() {
 		return myOtherDoubleT;
 	}
 
-	public void setMyOtherDoubleT(double myOtherDoubleTIn) {
+	public void setmyOtherDoubleT(double myOtherDoubleTIn) {
 		myOtherDoubleT = myOtherDoubleTIn;
 	}
 
-	public float getMyFloatT() {
+	public float getmyFloatT() {
 		return myFloatT;
 	}
 
-	public void setMyFloatT(float myFloatTIn) {
+	public void setmyFloatT(float myFloatTIn) {
 		myFloatT = myFloatTIn;
 	}
 
-	public short getMyShortT() {
+	public short getmyShortT() {
 		return myShortT;
 	}
 
-	public void setMyShortT(short myShortTIn) {
+	public void setmyShortT(short myShortTIn) {
 		myShortT = myShortTIn;
 	}
 
-	public short getMyOtherShortT() {
+	public short getmyOtherShortT() {
 		return myOtherShortT;
 	}
 
-	public void setMyOtherShortT(short myOtherShortTIn) {
+	public void setmyOtherShortT(short myOtherShortTIn) {
 		myOtherShortT = myOtherShortTIn;
 	}
 
-	public char getMyCharT() {
+	public char getmyCharT() {
 		return myCharT;
 	}
 
-	public void setMyCharT(char myCharTIn) {
+	public void setmyCharT(char myCharTIn) {
 		myCharT = myCharTIn;
 	}
 }
