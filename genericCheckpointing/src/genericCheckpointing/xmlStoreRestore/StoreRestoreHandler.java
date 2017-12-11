@@ -6,7 +6,9 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Vector;
 
+import genericCheckpointing.serDeser.DeserStrategy;
 import genericCheckpointing.serDeser.SerStrategy;
+import genericCheckpointing.serDeser.XMLDeserializationStrategy;
 import genericCheckpointing.serDeser.XMLSerializationStrategy;
 import genericCheckpointing.store.Results;
 import genericCheckpointing.util.FileProcessor;
@@ -18,12 +20,19 @@ public class StoreRestoreHandler implements InvocationHandler
 	private FileProcessor checkpointFileProc;
 	private Results checkpointFileRes;
 
+	
 	public Object invoke(Object proxy, Method m, Object[] args) throws Throwable
 	{
-		//Use reflection to find type from args - could be either myalltypes1st or 2nd ?? Where/Why needed - not sure yet
+		// if the method is write
+		// if the wireFormat is XML
+		//  call serializeData(args[0], new XMLSerializationStrategy());
+
+		// if statements to check if it is the read method so that
+		// deserialization can be done ... 
+		
+		SerializableObject obj = null;
 		if(m.getName().equals("writeObj"))
 		{
-			System.out.println("Write Method Was Called");
 			if(args[2].equals("XML"))
 			{
 				serializeData((SerializableObject) args[0], new XMLSerializationStrategy());
@@ -32,30 +41,47 @@ public class StoreRestoreHandler implements InvocationHandler
 		}
 		else if(m.getName().equals("readObj"))
 		{
-			System.out.println("Read Method Was Called");
+			if(args[0].equals("XML"))
+			{
+				obj = deserializeData(new XMLDeserializationStrategy());
+			}
 		}
 			
-		return null;
-		// if the method is write
-		// if the wireFormat is XML
-		//  call serializeData(args[0], new XMLSerializationStrategy());
-
-		// if statements to check if it is the read method so that
-		// deserialization can be done ... 
+		return obj;
 	}
 
 	public void serializeData(SerializableObject sObject, SerStrategy sStrategy) 
 	{
-		checkpointFileRes.storeNewResult("<DPSerialization>");
-		String objectTypeStart = "\t<complexType xsi:type=\""+sObject.getClass().getName()+"\">";
-		checkpointFileRes.storeNewResult(objectTypeStart);
-		Vector<String> serializedStrings = sStrategy.processInput(sObject);
-		for(int x = 0; x<serializedStrings.size(); x++)
+		if(checkpointFileRes != null)
 		{
-			checkpointFileRes.storeNewResult(serializedStrings.get(x));
+			checkpointFileRes.storeNewResult("<DPSerialization>");
+			String objectTypeStart = "\t<complexType xsi:type=\""+sObject.getClass().getName()+"\">";
+			checkpointFileRes.storeNewResult(objectTypeStart);
+			Vector<String> serializedStrings = sStrategy.processInput(sObject);
+			for(int x = 0; x<serializedStrings.size(); x++)
+			{
+				checkpointFileRes.storeNewResult(serializedStrings.get(x));
+			}
+			checkpointFileRes.storeNewResult("\t</complexType>");
+			checkpointFileRes.storeNewResult("</DPSerialization>");
 		}
-		checkpointFileRes.storeNewResult("\t</complexType>");
-		checkpointFileRes.storeNewResult("</DPSerialization>");
+		else
+		{
+			System.err.println("File Already Present for serdeser mode, Please recheck mode or remove the file and try again.");
+			System.exit(1);
+		}
+	}
+	
+	public SerializableObject deserializeData(DeserStrategy dStrategy)
+	{
+		String line = "";
+		Vector<String> toDeserStrings = new Vector<String>();
+		while(!(line = checkpointFileProc.readLine()).equals("</DPSerialization>"))
+		{
+			toDeserStrings.add(line);
+		}
+		SerializableObject deserObj = dStrategy.processInput(toDeserStrings);
+		return deserObj;
 	}
 
 	public void openFile()
@@ -75,21 +101,6 @@ public class StoreRestoreHandler implements InvocationHandler
 				checkpointFileRes = new Results(checkpointFile.getPath());
 			}
 			catch (IOException e) 
-			{
-				System.err.println("\nFile cannot be created");
-				e.printStackTrace();
-				System.exit(1);
-			}
-		}
-		else
-		{
-			checkpointFile.delete();
-			try
-			{
-				checkpointFile.createNewFile();
-				checkpointFileRes = new Results(checkpointFile.getPath());
-			}
-			catch (IOException e)
 			{
 				System.err.println("\nFile cannot be created");
 				e.printStackTrace();

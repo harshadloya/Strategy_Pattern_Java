@@ -100,12 +100,28 @@ public class Driver
 			{
 				myRecordRet = ((RestoreI) cpointRef).readObj("XML");
 				// FIXME: store myRecordRet in the vector
-				serDeserObjectsNew.add(j, myRecordRet);
+				serDeserObjectsNew.add(myRecordRet);
 			}
+			
+			int counter = 0;
+			for(int pos = 0; pos < serDeserObjects.size() && pos < serDeserObjectsNew.size(); pos++)
+			{
+				if(!serDeserObjects.get(pos).equals(serDeserObjectsNew.get(pos)))
+				{
+					counter++;
+				}
+			}
+			System.out.println("\"" +counter + " mismatched objects\"");
+			
 			break;
 		// For deser, just deserliaze the input file into the data structure and then print the objects
 		case "deser":
 			
+			for (int j=0; j<2*NUM_OF_OBJECTS; j++)
+			{
+				myRecordRet = ((RestoreI) cpointRef).readObj("XML");
+				System.out.println(myRecordRet);
+			}
 			break;
 		
 		default:

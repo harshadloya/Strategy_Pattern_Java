@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import genericCheckpointing.util.FileDisplayInterface;
-import genericCheckpointing.util.MyLogger;
 import genericCheckpointing.util.StdoutDisplayInterface;
 
 /**
@@ -40,7 +39,6 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 	public Results() 
 	{
 		super();
-		MyLogger.writeMessage("Results class default constructor was called", MyLogger.DebugLevel.CONSTRUCTOR);
 		resultSetStrings = new HashMap<Integer, String>();
 		i = 0;
 	}
@@ -53,7 +51,6 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 	public Results(String outputPath) throws IOException
 	{
 		this();
-		MyLogger.writeMessage("Results class parameterized constructor was called", MyLogger.DebugLevel.CONSTRUCTOR);
 		writer = new FileWriter(outputPath, true);
 	}
 
@@ -92,14 +89,14 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 					outputFile.createNewFile();
 				}*/
 				
-				for(int x = 0; x < resultSetStrings.size()-1; x++)
+				for(int x = 0; x < resultSetStrings.size(); x++)
 				{
 					if(resultSetStrings.get(x) != null)
 						writer.write(resultSetStrings.get(x) +"\n");
 				}
 				
-				if(resultSetStrings.get(resultSetStrings.size()-1) != null)
-					writer.write(resultSetStrings.get(resultSetStrings.size()-1));
+				/*if(resultSetStrings.get(resultSetStrings.size()-1) != null)
+					writer.write(resultSetStrings.get(resultSetStrings.size()-1));*/
 				
 				writer.flush();
 				resultSetStrings.clear();

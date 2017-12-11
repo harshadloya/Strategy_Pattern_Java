@@ -26,7 +26,6 @@ public class FileProcessor
 	 */
 	public FileProcessor(String filePath)
 	{
-		MyLogger.writeMessage("FileProcessor class paramterized constructor was called", MyLogger.DebugLevel.CONSTRUCTOR);
 		try
 		{
 			isr = new FileReader(new File(filePath));

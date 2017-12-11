@@ -38,43 +38,66 @@ public class XMLSerializationStrategy implements SerStrategy
 				Method getterMethod = cls.getMethod(methodName);
 				Object invokeRet = getterMethod.invoke(sObject);
 				
-				/*switch(fld.getType().getName())
+				switch(fld.getType().getSimpleName())
 				{
-					case "int":
-						System.out.println(invokeRet);
-						processedInput.add(serializeHelper.serialize(invokeRet, fieldName));
-						break;
-					case "long":
-						System.out.println(invokeRet);
-						processedInput.add(serializeHelper.serialize(invokeRet, fieldName));
-						break;
-					case "String":
-						System.out.println(invokeRet);
-						processedInput.add(serializeHelper.serialize(invokeRet, fieldName));
-						break;
-					case "boolean":
-						System.out.println(invokeRet);
-						break;
-					case "double":
-						System.out.println(invokeRet);
-						break;
-					case "float":
-						System.out.println(invokeRet);
-						break;
-					case "short":
-						System.out.println(invokeRet);
-						break;
-					case "char":
-						System.out.println(invokeRet);
-						break;
-					default:
-						System.out.println("Oops, Kuch toh Handle karna Bhul Gya.");
-						break;
-				}*/
-				if(!invokeRet.equals(0) && !invokeRet.equals(0l) && !invokeRet.equals(0.0d) && !invokeRet.equals(0.0f) && !invokeRet.equals("") && !invokeRet.equals((short)0))
+				case "int":
+					int intVal = Integer.parseInt(invokeRet.toString());
+					if(intVal < 10)
+					{
+						continue;	
+					}
+					break;
+				case "float":
+					float floatVal = Float.parseFloat(invokeRet.toString());
+					if(floatVal < 10)
+					{
+						continue;	
+					}
+					break;
+				case "long":
+					long longVal = Long.parseLong(invokeRet.toString());
+					if(longVal < 10)
+					{
+						continue;	
+					}
+					break;
+				case "double":
+					double doubleVal = Double.parseDouble(invokeRet.toString());
+					if(doubleVal < 10)
+					{
+						continue;	
+					}
+					break;
+				case "String":
+					String stringVal = invokeRet.toString();
+					if(stringVal.equals(""))
+					{
+						continue;	
+					}
+					break;
+				case "boolean":
+					//boolean boolVal = Boolean.parseBoolean(invokeRet.toString());
+					break;
+				case "char":
+					//char charVal = invokeRet.toString().charAt(0);
+					break;
+				case "short":
+					short shortVal = Short.parseShort(invokeRet.toString());
+					if(shortVal < 10)
+					{
+						continue;	
+					}
+					break;
+				default:
+					System.err.println("Oops, This Data Type was not handled in Deserialization.");
+					break;
+				}
+				
+				processedInput.add(serializeHelper.serialize(invokeRet, fieldName, fld.getType().getSimpleName().toLowerCase()));	
+				/*if(!((int)invokeRet < 10) && !((long)invokeRet < 10l) && !((double)invokeRet < 10.0d) && !((float)invokeRet < 10.0f) && !invokeRet.equals("") && !((short)invokeRet < 10))
 				{
 					processedInput.add(serializeHelper.serialize(invokeRet, fieldName, fld.getType().getSimpleName().toLowerCase()));
-				}
+				}*/
 			}
 		}
 		catch (NoSuchMethodException e)
