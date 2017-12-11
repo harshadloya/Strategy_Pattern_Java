@@ -3,17 +3,22 @@ package genericCheckpointing.serDeser;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Vector;
 
 import genericCheckpointing.util.SerializableObject;
+import genericCheckpointing.util.SerializeTypes;
 
 public class XMLSerializationStrategy implements SerStrategy
 {
 	@Override
-	public void processInput(SerializableObject sObject) 
+	public Vector<String> processInput(SerializableObject sObject) 
 	{
 		// all the code to create the output file with XML snippets for
 		// an object
 		System.out.println("kaam Karaychae aahe ikde");
+		Vector<String> processedInput = new Vector<String>();
+		SerializeTypes serializeHelper = new SerializeTypes();
+		
 		Class<?> cls = sObject.getClass();
 		Field[] fields = cls.getDeclaredFields();
 		try
@@ -34,16 +39,19 @@ public class XMLSerializationStrategy implements SerStrategy
 				Method getterMethod = cls.getMethod(methodName);
 				Object invokeRet = getterMethod.invoke(sObject);
 				
-				switch(fld.getType().getName())
+				/*switch(fld.getType().getName())
 				{
 					case "int":
 						System.out.println(invokeRet);
+						processedInput.add(serializeHelper.serialize(invokeRet, fieldName));
 						break;
 					case "long":
 						System.out.println(invokeRet);
+						processedInput.add(serializeHelper.serialize(invokeRet, fieldName));
 						break;
 					case "String":
 						System.out.println(invokeRet);
+						processedInput.add(serializeHelper.serialize(invokeRet, fieldName));
 						break;
 					case "boolean":
 						System.out.println(invokeRet);
@@ -61,41 +69,10 @@ public class XMLSerializationStrategy implements SerStrategy
 						System.out.println(invokeRet);
 						break;
 					default:
+						System.out.println("Oops, Kuch toh Handle karna Bhul Gya.");
 						break;
-				}
-				
-				/*if(fld.getType() == int.class)
-				{
-					System.out.println(invokeRet);
-				}
-				else if(fld.getType() == long.class)
-				{
-					System.out.println(invokeRet);
-				}
-				else if(fld.getType() == String.class)
-				{
-					System.out.println(invokeRet);
-				}
-				else if(fld.getType() == boolean.class)
-				{
-					System.out.println(invokeRet);
-				}
-				else if(fld.getType() == double.class)
-				{
-					System.out.println(invokeRet);
-				}
-				else if(fld.getType() == float.class)
-				{
-					System.out.println(invokeRet);
-				}
-				else if(fld.getType() == short.class)
-				{
-					System.out.println(invokeRet);
-				}
-				else if(fld.getType() == char.class)
-				{
-					System.out.println(invokeRet);
 				}*/
+				processedInput.add(serializeHelper.serialize(invokeRet, fieldName));
 			}
 		}
 		catch (NoSuchMethodException e)
@@ -118,5 +95,6 @@ public class XMLSerializationStrategy implements SerStrategy
 		{
 			e.printStackTrace();
 		}
+		return processedInput;
 	}
 }

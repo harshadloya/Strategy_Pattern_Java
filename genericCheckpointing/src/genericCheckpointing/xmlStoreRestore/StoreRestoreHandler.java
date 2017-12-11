@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.Vector;
 
 import genericCheckpointing.serDeser.SerStrategy;
 import genericCheckpointing.serDeser.XMLSerializationStrategy;
@@ -26,6 +27,7 @@ public class StoreRestoreHandler implements InvocationHandler
 			if(args[2].equals("XML"))
 			{
 				serializeData((SerializableObject) args[0], new XMLSerializationStrategy());
+				checkpointFileRes.writeScheduleToFile();
 				System.out.println("Thamba");
 			}
 		}
@@ -45,14 +47,40 @@ public class StoreRestoreHandler implements InvocationHandler
 
 	public void serializeData(SerializableObject sObject, SerStrategy sStrategy) 
 	{
-		sStrategy.processInput(sObject);
+		checkpointFileRes.storeNewResult("<DPSerialization>");
+		String objectTypeStart = "\t<complexType xsi:type=\""+sObject.getClass().getName()+"\">";
+		checkpointFileRes.storeNewResult(objectTypeStart);
+		Vector<String> serializedStrings = sStrategy.processInput(sObject);
+		for(int x = 0; x<serializedStrings.size(); x++)
+		{
+			checkpointFileRes.storeNewResult(serializedStrings.get(x));
+		}
+		checkpointFileRes.storeNewResult("\t</complexType>");
+		checkpointFileRes.storeNewResult("</DPSerialization>");
 	}
 
 	public void openFile()
 	{
 		if(!checkpointFile.exists())
 		{
-			checkpointFileRes = new Results(checkpointFile.getPath());
+			String path = checkpointFile.getAbsolutePath();
+			String fileName = checkpointFile.getName();
+			String[] temp = path.split(fileName.substring(0, fileName.length()-1));
+
+			File file = new File(temp[0]);
+			file.mkdirs();
+
+			try
+			{
+				checkpointFile.createNewFile();
+				checkpointFileRes = new Results(checkpointFile.getPath());
+			}
+			catch (IOException e) 
+			{
+				System.err.println("\nFile cannot be created");
+				e.printStackTrace();
+				System.exit(1);
+			}
 		}
 		checkpointFileProc = new FileProcessor(checkpointFile.getPath());
 	}

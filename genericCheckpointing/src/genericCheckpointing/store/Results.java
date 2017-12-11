@@ -1,6 +1,5 @@
 package genericCheckpointing.store;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 	/**
 	 * Data member that stores the path of the output file in which results(data) stored in this class will be written
 	 */
-	private String outputFilePath;
+	//private String outputFilePath;
 	
 	/**
 	 * Data member that stores the results(data) passed to this class  - required only within this class
@@ -49,12 +48,13 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 	/**
 	 * Parameterized constructor that initializes the data member to the specified paramter value.
 	 * @param outputPath - provides the path of the output file in which results (data) will be written.
+	 * @throws IOException 
 	 */
-	public Results(String outputPath)
+	public Results(String outputPath) throws IOException
 	{
 		this();
 		MyLogger.writeMessage("Results class parameterized constructor was called", MyLogger.DebugLevel.CONSTRUCTOR);
-		setOutputFilePath(outputPath);
+		writer = new FileWriter(outputPath, true);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 		try 
 		{
 			/*String path = getOutputFilePath();
-			String[] temp = path.split("output.tx");*/
+			String[] temp = path.split("output.tx");
 			
 			File tempOutputFile = new File(outputFilePath);
 			String path = tempOutputFile.getAbsolutePath();
@@ -79,36 +79,36 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 			
 			File file = new File(temp[0]);
 			boolean check = file.mkdirs();
-			File outputFile = new File(path);
+			File outputFile = new File(path);*/
 			
-			if(check == true || file.exists())
+			/*if(check == true || file.exists())
 			{
 				if(outputFile.exists())
 				{
 					outputFile.delete();
 				}
-				/*else
+				else
 				{
 					outputFile.createNewFile();
 				}*/
 				
-				writer = new FileWriter(path, true);
-				
-				for(int i = 0; i < resultSetStrings.size()-1; i++)
+				for(int x = 0; x < resultSetStrings.size()-1; x++)
 				{
-					if(resultSetStrings.get(i) != null)
-						writer.write(resultSetStrings.get(i) +"\n");
+					if(resultSetStrings.get(x) != null)
+						writer.write(resultSetStrings.get(x) +"\n");
 				}
 				
 				if(resultSetStrings.get(resultSetStrings.size()-1) != null)
 					writer.write(resultSetStrings.get(resultSetStrings.size()-1));
 				
 				writer.flush();
-			}
+				resultSetStrings.clear();
+				i=0;
+			/*}
 			else
 			{
 				System.err.println("\nThe folders given in the path do not exist and cannot be created");
-			}
+			}*/
 		} 
 		catch (IOException e) 
 		{
@@ -142,19 +142,19 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface
 		i++;
 	}
 
-	/**
+/*	*//**
 	 * Accessor for output file's path
 	 * @return path of output file
-	 */
+	 *//*
 	public String getOutputFilePath() {
 		return outputFilePath;
 	}
 
-	/**
+	*//**
 	 * Mutator for output file's path
 	 * @param outputFilePath - specifies the path of the output file
-	 */
+	 *//*
 	public void setOutputFilePath(String outputFilePath) {
 		this.outputFilePath = outputFilePath;
-	}
+	}*/
 }
