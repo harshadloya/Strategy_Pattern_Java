@@ -52,7 +52,7 @@ public class Driver
 
 		// FIXME: invoke a method on the handler instance to set the file name for checkpointFile and open the file
 		handler.setCheckpointFile(new File(checkpointFile));
-		handler.openFile();
+		handler.openFile(mode);
 
 		MyAllTypesFirst myFirst;
 		MyAllTypesSecond  mySecond;
@@ -81,7 +81,7 @@ public class Driver
 					myFirst = new MyAllTypesFirst(i, i+20, i*1024, i*2048+i/8, "DesignPattern-"+i, false);
 				}
 				
-				mySecond = new MyAllTypesSecond(i*10d, i*50+i/(10+r.nextDouble()), i*(i+r.nextFloat()), (short)(i+r.nextInt(1000)), (short)(i*+r.nextInt(1000)), (char)(48+r.nextInt(75)));
+				mySecond = new MyAllTypesSecond(i*10d, i*50+i/(10+r.nextDouble()), i*(i+r.nextFloat()), (short)(i+r.nextInt(1000)), (short)(i*+r.nextInt(1000)), (char)(64+r.nextInt(59)));
 
 				// FIXME: store myFirst and mySecond in the data structure
 				serDeserObjects.add(myFirst);

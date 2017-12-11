@@ -20,7 +20,6 @@ public class StoreRestoreHandler implements InvocationHandler
 	private FileProcessor checkpointFileProc;
 	private Results checkpointFileRes;
 
-	
 	public Object invoke(Object proxy, Method m, Object[] args) throws Throwable
 	{
 		// if the method is write
@@ -29,7 +28,7 @@ public class StoreRestoreHandler implements InvocationHandler
 
 		// if statements to check if it is the read method so that
 		// deserialization can be done ... 
-		
+
 		SerializableObject obj = null;
 		if(m.getName().equals("writeObj"))
 		{
@@ -46,7 +45,7 @@ public class StoreRestoreHandler implements InvocationHandler
 				obj = deserializeData(new XMLDeserializationStrategy());
 			}
 		}
-			
+
 		return obj;
 	}
 
@@ -71,7 +70,7 @@ public class StoreRestoreHandler implements InvocationHandler
 			System.exit(1);
 		}
 	}
-	
+
 	public SerializableObject deserializeData(DeserStrategy dStrategy)
 	{
 		String line = "";
@@ -84,9 +83,9 @@ public class StoreRestoreHandler implements InvocationHandler
 		return deserObj;
 	}
 
-	public void openFile()
+	public void openFile(String mode)
 	{
-		if(!checkpointFile.exists())
+		if(mode.equalsIgnoreCase("serdeser"))
 		{
 			String path = checkpointFile.getAbsolutePath();
 			String fileName = checkpointFile.getName();
@@ -97,6 +96,10 @@ public class StoreRestoreHandler implements InvocationHandler
 
 			try
 			{
+				if(checkpointFile.exists())
+				{
+					checkpointFile.delete();
+				}
 				checkpointFile.createNewFile();
 				checkpointFileRes = new Results(checkpointFile.getPath());
 			}
