@@ -15,7 +15,6 @@ public class XMLSerializationStrategy implements SerStrategy
 	{
 		// all the code to create the output file with XML snippets for
 		// an object
-		System.out.println("kaam Karaychae aahe ikde");
 		Vector<String> processedInput = new Vector<String>();
 		SerializeTypes serializeHelper = new SerializeTypes();
 		
@@ -72,28 +71,41 @@ public class XMLSerializationStrategy implements SerStrategy
 						System.out.println("Oops, Kuch toh Handle karna Bhul Gya.");
 						break;
 				}*/
-				processedInput.add(serializeHelper.serialize(invokeRet, fieldName));
+				if(!invokeRet.equals(0) && !invokeRet.equals(0l) && !invokeRet.equals(0.0d) && !invokeRet.equals(0.0f) && !invokeRet.equals("") && !invokeRet.equals((short)0))
+				{
+					processedInput.add(serializeHelper.serialize(invokeRet, fieldName, fld.getType().getSimpleName().toLowerCase()));
+				}
 			}
 		}
 		catch (NoSuchMethodException e)
 		{
+			System.err.println("The method trying to be called doesn't exists, check the method name again.");
 			e.printStackTrace();
+			System.exit(1);
 		}
 		catch (SecurityException e)
 		{
+			System.err.println("The method trying to be called can't be accessed.");
 			e.printStackTrace();
+			System.exit(1);
 		}
 		catch (IllegalAccessException e)
 		{
+			System.err.println("Illegal Access to the method being called.");
 			e.printStackTrace();
+			System.exit(1);
 		}
 		catch (IllegalArgumentException e)
 		{
+			System.err.println("Illegal Argument passed to the method trying to be called.");
 			e.printStackTrace();
+			System.exit(1);
 		}
 		catch (InvocationTargetException e)
 		{
+			System.err.println("The invocation target is invalid, try again.");
 			e.printStackTrace();
+			System.exit(1);
 		}
 		return processedInput;
 	}

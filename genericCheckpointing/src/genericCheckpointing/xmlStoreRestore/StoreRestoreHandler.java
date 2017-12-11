@@ -28,7 +28,6 @@ public class StoreRestoreHandler implements InvocationHandler
 			{
 				serializeData((SerializableObject) args[0], new XMLSerializationStrategy());
 				checkpointFileRes.writeScheduleToFile();
-				System.out.println("Thamba");
 			}
 		}
 		else if(m.getName().equals("readObj"))
@@ -76,6 +75,21 @@ public class StoreRestoreHandler implements InvocationHandler
 				checkpointFileRes = new Results(checkpointFile.getPath());
 			}
 			catch (IOException e) 
+			{
+				System.err.println("\nFile cannot be created");
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}
+		else
+		{
+			checkpointFile.delete();
+			try
+			{
+				checkpointFile.createNewFile();
+				checkpointFileRes = new Results(checkpointFile.getPath());
+			}
+			catch (IOException e)
 			{
 				System.err.println("\nFile cannot be created");
 				e.printStackTrace();

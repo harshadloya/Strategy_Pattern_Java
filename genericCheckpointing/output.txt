@@ -1,0 +1,48 @@
+<DPSerialization>
+	<complexType xsi:type="genericCheckpointing.util.MyAllTypesFirst">
+		<myOtherInt xsi:type="xsd:int">20</myOtherInt>
+		<myString xsi:type="xsd:string">DesignPattern-0</myString>
+		<myBool xsi:type="xsd:boolean">true</myBool>
+	</complexType>
+</DPSerialization><DPSerialization>
+	<complexType xsi:type="genericCheckpointing.util.MyAllTypesSecond">
+		<myShortT xsi:type="xsd:short">949</myShortT>
+		<myCharT xsi:type="xsd:char">q</myCharT>
+	</complexType>
+</DPSerialization><DPSerialization>
+	<complexType xsi:type="genericCheckpointing.util.MyAllTypesFirst">
+		<myInt xsi:type="xsd:int">1</myInt>
+		<myOtherInt xsi:type="xsd:int">21</myOtherInt>
+		<myLong xsi:type="xsd:long">1024</myLong>
+		<myOtherLong xsi:type="xsd:long">2048</myOtherLong>
+		<myString xsi:type="xsd:string">DesignPattern-1</myString>
+		<myBool xsi:type="xsd:boolean">false</myBool>
+	</complexType>
+</DPSerialization><DPSerialization>
+	<complexType xsi:type="genericCheckpointing.util.MyAllTypesSecond">
+		<myDoubleT xsi:type="xsd:double">10.0</myDoubleT>
+		<myOtherDoubleT xsi:type="xsd:double">50.09814543294276</myOtherDoubleT>
+		<myFloatT xsi:type="xsd:float">1.321837</myFloatT>
+		<myShortT xsi:type="xsd:short">192</myShortT>
+		<myOtherShortT xsi:type="xsd:short">984</myOtherShortT>
+		<myCharT xsi:type="xsd:char">T</myCharT>
+	</complexType>
+</DPSerialization><DPSerialization>
+	<complexType xsi:type="genericCheckpointing.util.MyAllTypesFirst">
+		<myInt xsi:type="xsd:int">2</myInt>
+		<myOtherInt xsi:type="xsd:int">22</myOtherInt>
+		<myLong xsi:type="xsd:long">2048</myLong>
+		<myOtherLong xsi:type="xsd:long">4096</myOtherLong>
+		<myString xsi:type="xsd:string">DesignPattern-2</myString>
+		<myBool xsi:type="xsd:boolean">true</myBool>
+	</complexType>
+</DPSerialization><DPSerialization>
+	<complexType xsi:type="genericCheckpointing.util.MyAllTypesSecond">
+		<myDoubleT xsi:type="xsd:double">20.0</myDoubleT>
+		<myOtherDoubleT xsi:type="xsd:double">100.19546563040694</myOtherDoubleT>
+		<myFloatT xsi:type="xsd:float">4.4573174</myFloatT>
+		<myShortT xsi:type="xsd:short">736</myShortT>
+		<myOtherShortT xsi:type="xsd:short">1768</myOtherShortT>
+		<myCharT xsi:type="xsd:char">I</myCharT>
+	</complexType>
+</DPSerialization>

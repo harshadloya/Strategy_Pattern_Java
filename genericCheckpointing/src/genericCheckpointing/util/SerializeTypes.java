@@ -17,8 +17,8 @@ public class SerializeTypes
 		return "<"+ tagName +"xsi:type=\"xsd:int\">"+value+"</" + tagName + ">";
 	}*/
 	
-	public String serialize(Object value, String tagName)
+	public String serialize(Object value, String tagName, String valueType)
 	{
-		return "\t\t<"+ tagName +" xsi:type=\"xsd:int\">"+value+"</" + tagName + ">";
+		return "\t\t<"+ tagName +" xsi:type=\"xsd:"+valueType+"\">"+value+"</" + tagName + ">";
 	}
 }
